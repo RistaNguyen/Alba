@@ -1,0 +1,40 @@
+#pragma once
+
+extern PFLT_FILTER CMCFilter;
+
+NTSTATUS InitFilter(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath);
+NTSTATUS CMCProtectUnload(FLT_FILTER_UNLOAD_FLAGS Flags);
+NTSTATUS CMCProtectInstanceSetup(
+	PCFLT_RELATED_OBJECTS FltObject,
+	FLT_INSTANCE_SETUP_FLAGS Flags,
+	DEVICE_TYPE VolumeDeviceType,
+	FLT_FILESYSTEM_TYPE VolumeFilesystemType
+);
+NTSTATUS CMCProtectInstanceQueryTeardown(
+	PCFLT_RELATED_OBJECTS FltObjects,
+	FLT_INSTANCE_QUERY_TEARDOWN_FLAGS Flags
+);
+VOID CMCProtectInstanceTeardownStart(
+	PCFLT_RELATED_OBJECTS FltObjects,
+	FLT_INSTANCE_TEARDOWN_FLAGS Reason
+);
+VOID CMCProtectInstanceTeardownComplete(
+	PCFLT_RELATED_OBJECTS FltObjects,
+	FLT_INSTANCE_TEARDOWN_FLAGS Reason
+);
+FLT_PREOP_CALLBACK_STATUS CMCProtectPreCreate(
+	PFLT_CALLBACK_DATA Data,
+	PCFLT_RELATED_OBJECTS FltObjects,
+	PVOID* CompletionContext
+);
+FLT_PREOP_CALLBACK_STATUS CMCProtectPreSetInformation(
+	PFLT_CALLBACK_DATA Data,
+	PCFLT_RELATED_OBJECTS FltObjects,
+	PVOID* CompletionContext
+);
+FLT_PREOP_CALLBACK_STATUS CMCProtectWrite(
+	PFLT_CALLBACK_DATA Data,
+	PCFLT_RELATED_OBJECTS FltObjects,
+	PVOID* CompletionContext
+);
+bool IsDeleteAllowed(PFLT_FILE_NAME_INFORMATION FileName);
